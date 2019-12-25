@@ -4,8 +4,12 @@ Task 3
 */
 
 const findBestEmployee = function(employees) {
-    let maxValueInx = Object.values(employees).indexOf(Math.max.apply(null, Object.values(employees)))
-    return (`${Object.keys(employees)[maxValueInx]}: ${Object.values(employees)[maxValueInx]}`)
+  let maxValue 
+  for (const key in employees) {
+    if (employees[key] === Math.max.apply(null, Object.values(employees))) {
+      return key
+    }
+  }
   };
   
   /*

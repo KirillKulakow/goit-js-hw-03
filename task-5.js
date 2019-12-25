@@ -11,9 +11,12 @@ const products = [
   ];
   
   const getAllPropValues = function(arr, prop) {
-      let keys = []
-    for (let i = 0; i < arr.length; i++) {
-        keys.push((arr[i])[prop])
+    let keys = []
+    for (let obj of arr) {
+      if (obj[prop] === undefined) {
+        return keys
+      }
+        keys.push(obj[prop])
     }
     return keys
   };
