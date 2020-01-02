@@ -19,25 +19,21 @@ const Transaction = {
   
   const account = {
     // Текущий баланс счета
-    balance: 800,
+    balance: 0,
   
     // История транзакций
-    transactions: [
-        {id: 1, type: deposit, amount: 300},
-        {id: 2, type: deposit, amount: 900},
-        {id: 3, type: withdraw, amount: 400},
-    ],
+    transactions: [],
   
     /*
      * Метод создает и возвращает объект транзакции.
      * Принимает сумму и тип транзакции.
      */
     createTransaction(amount, type) {
-        return {
-            id: transactions[transactions.length] + 1,
-            type,
-            amount,
-        }
+        return ({
+            id: this.transactions.length + 1,
+            type: type,
+            amount: amount
+        })
     },
   
     /*
@@ -47,8 +43,9 @@ const Transaction = {
      * после чего добавляет его в историю транзакций
      */
     deposit(amount) {
-        type = Transaction.DEPOSIT
-        transactions.push(createTransaction(amount, type))
+        let transaction = account.createTransaction(amount, 'deposit')
+        this.transactions.push(transaction)
+        this.balance += amount
     },
   
     /*
@@ -61,22 +58,31 @@ const Transaction = {
      * о том, что снятие такой суммы не возможно, недостаточно средств.
      */
     withdraw(amount) {
-        type = Transaction.WITHDRAW
-        transactions.push(createTransaction(-amount, type))
+        let transaction = account.createTransaction(amount, 'withdraw')
+        this.transactions.push(transaction)
+        if(amount > this.balance){
+            console.log(`Cнятие суммы ${amount} не возможно, недостаточно средств`);
+        } else {
+            this.balance -= amount
+        }
     },
   
     /*
      * Метод возвращает текущий баланс
      */
     getBalance() {
-
+        console.log(`Текущий баланс ${this.balance}`);
     },
   
     /*
      * Метод ищет и возвращает объект транзации по id
      */
-    getTransactionDetails(id) {
-
+    getTransactionDetails(number) {
+        for (const obj of this.transactions) {
+                if (obj.id === number) {
+                    console.log(obj);
+                }
+        }
     },
   
     /*
@@ -84,6 +90,25 @@ const Transaction = {
      * определенного типа транзакции из всей истории транзакций
      */
     getTransactionTotal(type) {
-
+        let totalValue = 0
+        for (const obj of this.transactions) {
+            if (obj.type === type) {
+                totalValue += obj.amount
+            }
+        }
+        console.log(`Общее кол-во ${type}: ${totalValue}`);
     },
   };
+
+  account.deposit(350)
+  account.withdraw(275)
+  account.deposit(1350)
+  account.deposit(750)
+  account.withdraw(210)
+  account.deposit(50)
+  account.withdraw(130) 
+  account.getBalance()
+  account.getTransactionDetails(5)
+  account.getTransactionTotal("deposit")
+  account.getTransactionTotal("withdraw")
+  

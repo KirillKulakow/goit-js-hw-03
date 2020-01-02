@@ -4,12 +4,15 @@ Task 3
 */
 
 const findBestEmployee = function(employees) {
-  let maxValue 
+  let maxValue = 0
+  let maxValueKey
   for (const key in employees) {
-    if (employees[key] === Math.max.apply(null, Object.values(employees))) {
-      return key
+    if (employees[key] > maxValue) {
+      maxValue = employees[key]
+      maxValueKey = key
     }
   }
+  return maxValueKey
   };
   
   /*
